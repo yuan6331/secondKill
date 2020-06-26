@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<script src="/js/jquery.min.js" charset=UTF-8></script>
+<link rel="stylesheet" type="text/css" href="/css/sweetalert.css">
+<script type="text/javascript" src="/js/sweetalert-dev.js"></script>
+<script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+<meta charset="UTF-8">
+<title>登录页面</title>
+</head>
+<style type="text/css">
+* {
+	padding: 0;
+	margin: 0;
+	text-decoration: none;
+	list-style: none;
+	padding: 0;
+}
+
+.box1 {
+	height: 100%;
+	width: 100%;
+}
+
+.img1 {
+	position: absolute;
+	border: 0px solid #888;
+	height: 100%;
+	width: 100%;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.button_bg {
+	position: absolute;
+	border: 1px solid transparent;
+	width: 30%;
+	height: 16%;
+	border-radius: 5px;
+	left: 32%;
+	bottom: 11.5%;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.button_bg:active {
+	width: 29.5%;
+	height: 15.5%;
+	opacity: 0.8;
+}
+
+.button_bg:active+.button2 {
+	position: absolute;
+	left: 31.7%;
+	bottom: 11.0%;
+	width: 29.6%;
+	height: 15.8%;
+	border: 2px solid black;
+}
+
+.button2 {
+	position: absolute;
+	border: 1px solid black;
+	width: 30%;
+	height: 16%;
+	border-radius: 5px;
+	left: 32%;
+	bottom: 11.5%;
+	background-color: transparent;
+	color: transparent;
+}
+
+.button2:active {
+	border: 3px solid grey;
+}
+
+.button_bg {
+	z-index: 2;
+}
+
+.button2 {
+	z-index: 1;
+}
+
+.button2:HOVER {
+	border: 1px solid transparent;
+	color: #f40;
+	font-weight: bolder;
+}
+
+.inputbox {
+	position: absolute;
+	border: 1px solid grey;
+	padding-top: 10px;
+	margin: 2px;
+	left: 40%;
+	top: 45%;
+	text-align: center;
+	width: 20%;
+	height: 24%;
+}
+
+.inputboxbg {
+	position: absolute;
+	border: 1px solid transparent;
+	padding-top: 10px;
+	margin: 2px;
+	left: 40%;
+	top: 45%;
+	width: 20%;
+	height: 24%;
+	background-color: grey;
+	opacity: 0.1;
+	z-index: 0;
+}
+
+.input::-webkit-input-placeholder {
+	position: relative;
+	color: grey;
+	font-weight: lighter;
+	text-align: center;
+	font-size: 22px;
+	top: 3px;
+}
+
+.input {
+	height: 16%;
+	width: 80%;
+	margin-bottom: 5%;
+	border-color: #FFF5EE;
+	border-radius: 3px;
+	background: transparent;
+	text-align: center;
+	font-size: 28px;
+	font-weight: bolder;
+	color: #3D59AB;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.layerTest2 {
+	position: absolute;
+	left: 30%;
+	top: 60%;
+	width: 100px;
+	height: 40px;
+	background-color: transparent;
+	font-size: large;
+	color: #f40;
+}
+
+.errormsg {
+	position: absolute;
+	border: 1px solid transparent;
+	left: 20%;
+	width: 200px;
+	height: 30px;
+	font-size: large;
+	color: red;
+}
+</style>
+<body>
+	<div th:class='box1'>
+		<img class="img1"
+			th:src="@{https://up.enterdesk.com/edpic_source/94/d4/fa/94d4facd80e703b1d8b78f109c2e463e.jpg}">
+	</div>
+
+	<form autocomplete="off">
+		<div th:class="inputboxbg"></div>
+		<div th:class="inputbox">
+			<input type="text" th:placeholder="请输入账号" class="input" id="customId"
+				th:minlength="6" th:maxlength="11" /> <br> <input
+				type="password" th:placeholder="请输入密码" class="input" id="customPwd" />
+			<img class="button_bg" src="/img/button2.jpg" onclick="login()">
+			<div class="errormsg"><p th:text="${notLogin}"></div>
+			<div class="button2"></div>
+			<!-- <a th:href="@{/login/createCustom}">创建用户</a> -->
+
+		</div>
+	</form>
+	<input class="layerTest2" type="button" th:value="layerTest" th:onclick="layerTest()" />
+
+	<script type="text/javascript">
+	 function myfun(){　 
+		 alert(${notLogin});
+	 }
+	    window.onload = myfun;
+	</script>
+
+	<script type="text/javascript">
+		function login() {
+			var customId = $("#customId").val();
+			var customPwd = $("#customPwd").val();
+			if(customId.length<1||customPwd<1){
+				$(".errormsg").text("账号或密码不能为空！");
+				 setTimeout(function(){$(".errormsg").text("");}, 3000);
+				 return false;
+			} else if(customId.length<6){
+				$(".errormsg").text("账号格式错误！");
+				setTimeout(function(){$(".errormsg").text("");}, 3000);
+				return false;
+			};
+			var param = {
+				type : 'post',
+				url : '/login/loginAction',
+				data : {
+					"customId" : customId,
+					"customPwd" : customPwd
+				},
+				success:function(r){
+					if(r=='success'){
+						window.location='/login/customPage'
+					}else{
+						$(".errormsg").text("账号或密码错误！");
+						setTimeout(function(){$(".errormsg").text("");}, 3000);
+					}
+					
+				}
+			}
+			$.ajax(param);
+		}
+	</script>
+	<script type="text/javascript">
+		function layerTest() {
+			
+			layer.confirm('您是如何看待前端开发？', {
+				btn : [ '重要', '奇葩', '添加Custom' ]
+			}, function() {
+				layer.msg('的确很重要', {
+					icon : 1
+				});
+			}, function() {
+				layer.msg('也可以这样', {
+					time : 20000, //20s后自动关闭
+					btn : [ '明白了', '知道了' ]
+				});
+			}, function() {
+				alert("tishi");
+			});
+		}
+
+		function layerTest2() {
+			layer.confirm('您是如何看待前端开发？', {
+				btn : [ '重要', '奇葩' ]
+			}, function() {
+				layer.msg('的确很重要', {icon : 1});
+			}, function() {
+				var tishi = layer.load(1, {
+				    shadeClose: false,
+				    title: '加载中..',
+				    shade: [0.1,'transparent'] //0.1透明度的白色背景
+				});
+				alert("tishi");
+			});
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+<head>
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"
+	charset=UTF-8>
+	
+</script>
+
+<link rel="stylesheet" type="text/css" href="/css/sweetalert.css">
+<script type="text/javascript" src="/js/sweetalert-dev.js"></script>
+<script type="text/javascript">
+	function prizeDraw() {
+		var param = {
+			url : 'http://localhost:8080/turntable/prizeDraw',
+			success : function(r) {
+				if (r == 'lineOff') {
+					swal("请先登录账号！", "", "error")
+				} else {
+					swal("获得奖品：",r, "success")
+				}
+			}
+		}
+		$.ajax(param);
+	}
+</script>
+
+<script type="text/javascript">
+	function lineOff() {
+		var param2 = {
+				url ： 'http://localhost:8080/login/lineOff',
+				success : function(r) {
+						swal("已退出！", "", "success")
+				}
+			}
+		$.ajax(param2);
+	}
+</script>
+<style type="text/css">
+* {
+	text-decoration: none;
+}
+
+.bgImg1 {
+	top: 0;
+	left: 600px;
+	width: 550px;
+}
+
+.startButton {
+	position: absolute;
+	border-top-style: solid;
+	font-size: 28px;
+	top: 450px;
+	left: 900px;
+}
+
+.startImg {
+	position: absolute;
+	height: 150px;
+	width：150px;
+	top: 400px;
+	left: 905px;
+}
+
+
+
+.prize {
+	position: absolute;
+	width: 100px;
+	height: 40px;
+	top: 35%;
+	left: 40%;
+}
+
+.lineOffButton {
+	width: 100px;
+	height: 40px;
+	left: 600px;
+	top: 600px;
+	left: 30%;
+}
+</style>
+<body>
+	<div class="box1">
+
+		<center>
+			<img alt="" th:src="@{/images/game-bg.jpg}" th:class="bgImg1">
+		</center>
+
+		<img alt="" th:src="@{/images/turnplate-pointer.png}" th:class="startImg" th:onclick="prizeDraw()" >
+		<input class="lineOffButton" type="button" value="LINEOFF" th:onclick="lineOff()" />
+	</div>
+
+
+
+	<table class="prize">
+		<tbody>
+			<tr th:each="prize : ${prizeList}">
+				<td th:text="${prize.prizeId}"></td>
+				<td th:text="${prize.prizeName}"></td>
+				<td><img th:src="${prize.prizeImg}" /></td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>CustomPage</title>
+<script src="/js/jquery.min.js" charset=UTF-8></script>
+<link rel="stylesheet" type="text/css" href="/css/sweetalert.css">
+<script type="text/javascript" src="/js/sweetalert-dev.js"></script>
+<script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+</head>
+<style type="text/css">
+* {
+	padding: 0;
+	margin: 0;
+	text-decoration: none;
+	list-style: none;
+	padding: 0;
+}
+
+.html_bg, .box {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+}
+
+.box {
+	border: 1px solid grey;
+	z-index: 1;
+}
+
+.customInfo {
+	position: absolute;
+	border: 1px solid black;
+	width: 49%;
+	height: 100%;
+	left: 0;
+}
+
+.operations {
+	position: absolute;
+	border: 3px solid blue;
+	width: 49%;
+	height: 100%;
+	right: 0;
+}
+
+.timeBox {
+	position: absolute;
+	border: 5px solid black;
+	width: 30%;
+	height: 20%;
+	left: 10%;
+	top: 10%;
+	background-color: transparent;
+	font-size: 18px;
+}
+
+#show {
+	position: absolute;
+	border: 1px solid transparent;
+	width: 20%;
+	height: 4%;
+	right: 10px;
+	top: 5px;
+	text-align: center;
+	font-size: 4%;
+	font-size: 18px;
+}
+
+.infoMsg {
+	position: absolute;
+	border: 1px solid grey;
+	top: 5%;
+	right: 10%;
+	text-shadow: gray;
+	font-size: 22px;
+	color: #03A89E;
+	font-family: "黑体";
+	font-weight: bolder;
+	letter-spacing: 2mm;
+}
+
+.user {
+	position: absolute;
+	border: 1px solid transparent;
+	left: 100%;
+	top: 10%;
+	width: 80px;
+	text-shadow: gray;
+	font-size: 22px;
+	color: grey;
+	font-family: "黑体";
+	font-weight: bolder;
+	letter-spacing: 1mm;
+}
+
+.currentUser {
+	position: absolute;
+	border: 1px solid transparent;
+	right: 90%;
+	top: 10%;
+	width: 130px;
+	text-shadow: gray;
+	font-size: 22px;
+	color: grey;
+	font-family: "黑体";
+	font-weight: bolder;
+	letter-spacing: 0.7mm;
+}
+
+.offLine {
+	position: absolute;
+	border: 3px solid grey;
+	border-radius: 3px;
+	width: 10%;
+	height: 4%;
+	font-size: 18px;
+	background-color: transparent;
+	right: 10px;
+	top: 10%;
+	z-index: 2;
+}
+
+.oprerationOption {
+	position: absolute;
+	border: 1px solid grey;
+	border-radius: 3px;
+	width: 70%;
+	height: 40%;
+	background-color: transparent;
+	left: 10%;
+	top: 30%;
+}
+
+.secondKillBtn {
+	position: absolute;
+	border: 1px solid grey;
+	border-radius: 5px;
+	width: 20%;
+	height: 10%;
+	font-size: 22px;
+	line-height: 22px;
+	text-align: center;
+	background: rgba(255, 255, 255, 0.3);
+	left: 10%;
+	top: 30%;
+	z-index: 2;
+}
+
+.secondKillBtn:ACTIVE {
+	color:grey;
+	width: 19%;
+	height: 9%;
+	left: 10.5%;
+	top: 30.5%;
+	font-size: 20px;
+	line-height: 20px;
+}
+</style>
+<body>
+	<img class="html_bg"
+		th:src="@{https://img.zcool.cn/community/037857d5afd43aca801209a85eb2737.jpg}">
+	<!-- 当前用户 -->
+	<div class="box">
+		<div class="customInfo"></div>
+
+
+
+	</div>
+	<!-- 可行操作 -->
+	<div class="operations">
+		<!-- 时钟 -->
+		<div id="show"></div>
+
+		<div class="infoMsg">
+			<p class="currentUser" th:text="当前用户：">
+			<p class="user" th:text="${custom.customId}">未登录</p>
+		</div>
+		<button class="offLine" th:onclick="offLine()">退出</button>
+		<div class="oprerationOption">
+			<button class="secondKillBtn" th:onclick="secondKill()">
+				<p th:text="secondKill">
+			</button>
+		</div>
+	</div>
+</body>
+
+
+<script type="text/javascript">
+	window.onload = function() {
+		var show = document.getElementById("show");
+		setInterval(function() {
+			var time = new Date(); // 程序计时的月从0开始取值后+1   
+			var m = addZero(time.getMonth() + 1);
+			var t = time.getFullYear() + "-" + m + "-"
+					+ addZero(time.getDate()) + " " + addZero(time.getHours())
+					+ ":" + addZero(time.getMinutes()) + ":"
+					+ addZero(time.getSeconds());
+			show.innerHTML = t;
+		}, 1000);
+		function addZero(p) {
+			return p < 10 ? "0" + p : p;
+		}
+	};
+</script>
+<script type="text/javascript">
+	function offLine() {
+		layer.confirm('确定要退出吗？', {
+			btn : [ '退出', '取消' ]
+		}, function() {
+			window.location.href = '/login/offLine';
+		}, function() {
+		});
+	}
+
+</script>
+<script type="text/javascript">
+function secondKill() {
+			window.location='/goods/googsList';
+}
+</script>
+</html>
