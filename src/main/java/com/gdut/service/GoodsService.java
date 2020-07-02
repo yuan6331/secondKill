@@ -13,7 +13,7 @@ public interface GoodsService {
 	Goods selectOne(String goodsId);
 	
 	//查询所以可以秒杀的商品
-	void saveGoodsInRedis(String key);
+	void saveGoodsInRedis(int start,int pageSize,String key);
 	
 	//查询指定的秒杀商品
 	Goods getGoods(String goodsId);

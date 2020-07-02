@@ -15,7 +15,7 @@
 		<typeHandler handler="org.apache.ibatis.type.OffsetTimeTypeHandler" />
 		<typeHandler handler="org.apache.ibatis.type.ZonedDateTimeTypeHandler" />
 	</typeHandlers>
-
+<!-- 拦截器插件 -->
 	<plugins>
 		<plugin interceptor="com.github.pagehelper.PageInterceptor">
 		</plugin>
